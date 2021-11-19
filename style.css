@@ -1,3 +1,7 @@
 body{
-    
+    background-color:#eee;
+}
+
+.barre{
+    text-decoration: line-through;
 }

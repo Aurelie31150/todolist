@@ -37,22 +37,22 @@ const lireObjet = function(key){    //fonction pour récupérer la tache enregis
     var value = this.localStorage.getItem(localStorage.key(key));
     return value && JSON.parse(value);
 }
+//fonciont qui lis le local storage et créé de nouveaux élément dans le tableau pour les afficher
 const ajoutTache = function(){
-    
     for(let i = 0; i < localStorage.length; i++){
-        var taskName = document.createTextNode(lireObjet(i).nom);
-        var taskDate = document.createTextNode(lireObjet(i).echeance);
-        var className = lireObjet(i).nom.replace(/\s+/g, '-');
-        var newRow = tbodyRef.insertRow();
-        var newCell1 = newRow.insertCell();
-        var newCell2 = newRow.insertCell();
-        var newCell3 = newRow.insertCell();
-        const switchBtn = document.createElement("div");
-        const switchBtn2 = document.createElement("input");
-        const switchBtn3 = document.createElement("label");
-        const btnTitre = document.createElement("button");
-        newCell2.classList.add(className);
-        btnTitre.classList.add(className, "titre", "btn", "btn-secondary")
+        var taskName = document.createTextNode(lireObjet(i).nom); //text qui récupère le non de la tache
+        var taskDate = document.createTextNode(lireObjet(i).echeance); //text qui récupère la date de limite de la tache
+        var className = lireObjet(i).nom.replace(/\s+/g, '-'); //récupère le nom de la tache et remplace les espaces par des -
+        var newRow = tbodyRef.insertRow(); //nouvelle ligne dans le tableau
+        var newCell1 = newRow.insertCell(); //nouvele celule dans le tableau
+        var newCell2 = newRow.insertCell(); //nouvele celule dans le tableau
+        var newCell3 = newRow.insertCell(); //nouvele celule dans le tableau
+        const switchBtn = document.createElement("div"); //créer un élément <div> pour le switch
+        const switchBtn2 = document.createElement("input"); //créer un élément <input> pour le switch
+        const switchBtn3 = document.createElement("label"); //créer un élément <label> pour le switch
+        const btnTitre = document.createElement("button"); // créer un élément bouton pour l'affichage du titre pour la prise en compte du tooltip
+        newCell2.classList.add(className); //ajoute le nom de la tache modifié comme classe 
+        btnTitre.classList.add(className, "titre", "btn");
         switchBtn.classList.add("form-check", "form-switch");
         switchBtn2.classList.add("form-check-input");
         switchBtn2.classList.add(className);
@@ -69,10 +69,21 @@ const ajoutTache = function(){
         newCell1.appendChild(btnTitre);
         btnTitre.appendChild(taskName);
         newCell2.appendChild(taskDate);
+        // couleurs de priorités
+        var priorite = lireObjet(i).priorite;
+        if(priorite == "eleve"){
+            btnTitre.classList.add("btn-danger");
+        }
+        else if(priorite == "basse"){
+            btnTitre.classList.add("btn-success");
+        }
+        else{
+            btnTitre.classList.add("btn-secondary");
+        }
     }
 }
 
-/*            */
+/* Active les tooltips bootstrap */
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 });
@@ -89,6 +100,9 @@ $("#datepicker").datepicker({
 $( function() {   
     $( "#datepicker" ).datepicker();
 } );
+
+
+
 
 /*****************************************
 * ************Executions*****************

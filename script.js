@@ -37,6 +37,17 @@ const lireObjet = function(key){    //fonction pour récupérer la tache enregis
     var value = this.localStorage.getItem(localStorage.key(key));
     return value && JSON.parse(value);
 }
+
+//compare les dates
+const dateInPast = function(firstDate, secondDate) {
+    if (firstDate <= secondDate) {
+        
+      return true;
+    }
+    
+    return false;
+  };
+
 //fonciont qui lis le local storage et créé de nouveaux élément dans le tableau pour les afficher
 const ajoutTache = function(){
     for(let i = 0; i < localStorage.length; i++){
@@ -80,8 +91,23 @@ const ajoutTache = function(){
         else{
             btnTitre.classList.add("btn-secondary");
         }
+        //taches en retard
+         const today = new Date();
+         const todayDate = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+        if(dateInPast(lireObjet(i).echeance, todayDate)){
+            const span = document.createElement("span");
+            const retard = document.createTextNode("EN RETARD");
+            newCell1.appendChild(span);
+            span.appendChild(retard);
+            span.classList.add("ms-3", "fs-5", "fw-bold", "text-danger");
+        };
+        
     }
 }
+
+
+  
+
 
 /* Active les tooltips bootstrap */
 $(document).ready(function() {
@@ -138,6 +164,5 @@ $("#suprimmerTache").click( function(){
         localStorage.removeItem(listASup[i]);
     }
 })
-
 
 

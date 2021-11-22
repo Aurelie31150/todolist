@@ -14,6 +14,18 @@
 /*Executions*/
 
 /*Aurélie*/
+// Commutation tâche
+const toggleTask = (complete, target) => {
+    const parent = target.parentNode
+    const sibling = parent.previousSibling
+    const text = sibling.textContent
+    // Mise à jour du dictionnaire
+    tasks.set(text, complete)
+    // Changement du bouton
+    parent.innerHTML = complete ? buttonsComplete : buttonsNoComplete
+    // Barrage du texte
+    sibling.innerHTML = complete ? `<del>${text}</del>` : text
+  }
 /*Variables*/
 /*Fonctions*/
 /*Executions*/
